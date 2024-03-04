@@ -1,0 +1,20 @@
+#!/bin/sh
+
+MESSAGE=$1
+
+if [ -z  "$MESSAGE" ]
+then
+  echo "Wrong usage. See example below";
+  echo "Usage: ./createDoc.sh \"Your commit message (inside quotes)\"";
+else
+  (
+    git pull ;
+    npx insomnia-documenter --config docs.json &&
+    sed -i '.bak' 's/\"\/insomnia.json\"/\"insomnia.json\"/g' bundle.js &&
+    rm -rf bundle.js.bak
+  );
+  (
+    git add . && git commit -m "$MESSAGE" && git push
+  );
+fi
+

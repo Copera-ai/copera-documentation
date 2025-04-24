@@ -9,6 +9,7 @@ then
 else
   (
     git pull ;
+    node clean.cjs &&
     npx insomnia-documenter --config docs.json &&
     sed -i '.bak' 's/\"\/insomnia.json\"/\"insomnia.json\"/g' bundle.js &&
     rm -rf bundle.js.bak
